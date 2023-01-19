@@ -43,13 +43,13 @@ def create_search(filename_pk):
 def create_association(filename_pk):
     video_file = VideoFile.objects.get(pk=filename_pk)
     search = Search.objects.get(file=video_file)
+    title = 'No title found'
     if search.movie_selected:
-        print('Movie already associated: ' + search.movie_selected.title + ' with file: ' + video_file.name)
-    else:
-        title = 'No title found'
         if search.movie_selected.title:
             title = search.movie_selected.title
-        print('Associating movie: ' + title + ' with file: ' + video_file.name)
+        print('Movie already associated: ' + search.movie_selected.title + ' with file: ' + video_file.name)
+    else:
+        print('Cannot associate movie to file: ' + video_file.name)
         search.movie_selected = search.get_first_movie()
         search.save()
 
