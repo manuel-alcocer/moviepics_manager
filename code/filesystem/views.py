@@ -19,5 +19,4 @@ class FilesView(ListView):
         for file in context['object_list']:
             file.image_preview = file.get_movie()
             file.basename = basename(file.realpath)
-            file.title = 
         return context

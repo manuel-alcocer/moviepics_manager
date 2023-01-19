@@ -4,7 +4,7 @@ from tmdb.models import Movie
 from os.path import basename
 
 class MoviesDirectory(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.FilePathField(path='/mnt/media', recursive=True, allow_files=False, allow_folders=True)
 
     def __str__(self):
         return self.name
