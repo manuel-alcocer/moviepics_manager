@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+{% for item in object_list %}
+{% if forloop.counter0|divisibleby:6 %}
+<div class="row p-2">
+{% endif %}
+    <div class="col">
+        <div class="row align-items-center">
+            <div class="container text-center">
+                <img src="{{ item.image_preview }}" height="200"/>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="container text-center">
+                <figure>
+                <p class="text-small">{{ item.directory }}</p>
+                <p class="fs-6">{{ item.name }}</p>
+                <p class="fs-6">{{ item.basename }}</p>
+                </figure>
+            </div>
+        </div>
+    </div>
+{% if forloop.counter|divisibleby:6 %}
+</div>
+{% endif %}
+{% endfor %}
+</div>
+{% endblock %}
+
+

@@ -1,6 +1,7 @@
 from django.db import models
 
 from tmdb.models import Movie
+from os.path import basename
 
 class MoviesDirectory(models.Model):
     name = models.CharField(max_length=100)
@@ -16,6 +17,12 @@ class VideoFile(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_movie(self):
+        search = Search.objects.filter(file=self)
+        if search.exists():
+            return search.first().movie_selected.get_poster_url()
+        return None
 
 class Search(models.Model):
     name = models.CharField(max_length=255)
