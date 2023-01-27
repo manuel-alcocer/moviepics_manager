@@ -148,7 +148,3 @@ CACHES = {
 }
 CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@localhost:5672'
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]

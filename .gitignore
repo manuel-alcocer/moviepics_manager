@@ -5,6 +5,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 .venv
+static/
+media/
+*migrations/*py
 
 # C extensions
 *.so
