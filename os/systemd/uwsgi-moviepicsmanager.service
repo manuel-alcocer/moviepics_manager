@@ -1,0 +1,17 @@
+[Unit]
+Description=MoviePics Manager Service
+After=syslog.target
+
+[Service]
+Environment=APPINI=/var/www/django/moviepics_manager/os/uwsgi/web.ini
+ExecStart=/var/www/django/moviepics_manager/.venv/bin/uwsgi --ini $APPINI
+User=www-data
+Group=www-data
+Restart=on-failure
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
+Also=uwsgi-moviepicsmanager.socket

@@ -1,0 +1,24 @@
+server {
+  listen 8080;
+  listen [::]:8080;
+
+  server_name _;
+
+  location / {
+    uwsgi_pass unix:///var/lib/nginx/uwsgi/moviepicsmanager.sock;
+    include moviepics_uwsgi_params;
+    proxy_pass_request_headers on;
+    proxy_no_cache     $cookie_nocache  $arg_nocache $arg_comment;
+    proxy_no_cache     $http_pragma     $http_authorization;
+    proxy_cache_bypass $cookie_nocache  $arg_nocache $arg_comment;
+    proxy_cache_bypass $http_pragma     $http_authorization;
+  }
+
+  location /static {
+    alias /var/www/django/moviepics_manager/code/static;
+  }
+
+  location /media {
+    alias /var/www/django/moviepics_manager/code/media;
+  }
+}
