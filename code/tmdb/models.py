@@ -2,6 +2,7 @@ from django.db import models
 
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from django.utils.safestring import mark_safe
 
 class SettingOption(models.Model):
     name = models.CharField(max_length=100)

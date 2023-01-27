@@ -11,6 +11,8 @@ from filesystem.tasks import filename_search_task
 from filesystem.tasks import run_search_task
 from filesystem.tasks import create_picture_on_disk_task
 
+from django import forms
+from django.db import models
 
 @admin.action(description='Scan directory')
 def scan_directory(modeladmin, request, queryset):
@@ -26,7 +28,6 @@ def search_on_tmdb(modeladmin, request, queryset):
 def create_picture(modeladmin, request, queryset):
     for video_file in queryset:
         create_picture_on_disk_task.delay(video_file.pk)
-
 
 @admin.register(MoviesDirectory)
 class DirectoryAdmin(admin.ModelAdmin):
@@ -66,9 +67,15 @@ def run_selected_searches(modeladmin, request, queryset):
 
 @admin.register(Search)
 class SearchAdmin(admin.ModelAdmin):
-    list_display = ('name', 'movie_selected', 'file_link' ,'movie_count', 'last_search', 'result')
+    list_display = ('name', 'movie_selected', 'file_link' ,'movie_count', 'last_search')
     search_fields = ('name',)
+    exclude = ('result',)
     actions = [run_selected_searches]
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        print(form)
+        return form
 
     def file_link(self, obj):
         if obj.file:
@@ -83,8 +90,8 @@ class SearchAdmin(admin.ModelAdmin):
                 readonly_fields += ('file',)
             if obj.movies:
                 readonly_fields += ('movies',)
-            if obj.result:
-                readonly_fields += ('result',)
+            if obj.name:
+                readonly_fields += ('name',)
         return readonly_fields
 
     def movie_count(self, obj):
@@ -92,11 +99,10 @@ class SearchAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'movie_selected':
+            kwargs['queryset'] = Movie.objects.none()
             if 'object_id' in request.resolver_match.kwargs:
                 current_search = self.get_object(request, request.resolver_match.kwargs['object_id'])
                 if current_search.result_count() > 0:
                     movie_id_list = current_search.movie_id_list()
                     kwargs['queryset'] = Movie.objects.filter(tmdb_id__in=movie_id_list).order_by('title')
-            else:
-                kwargs['queryset'] = Movie.objects.none()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)

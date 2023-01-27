@@ -53,13 +53,13 @@ def create_association(filename_pk):
         search.movie_selected = search.get_first_movie()
         search.save()
 
-def search_on_tmdb(movie_name):
+def search_on_tmdb(search_string):
     tmdb = TMDb()
     tmdb.api_key = Setting.objects.get(option__name='api_key').value
     tmdb.language = Setting.objects.get(option__name='language').value
     tmdb.debug = True
     movie = TmdbMovie()
-    return [ m.__dict__ for m in movie.search(movie_name) ]
+    return [ m.__dict__ for m in movie.search(search_string) ]
 
 def update_result(search):
     max_search_cache = Setting.objects.get(option__name='max_search_cache').value
