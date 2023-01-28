@@ -1,0 +1,11 @@
+[Unit]
+Description=Socket for MoviePics Manager
+
+[Socket]
+ListenStream=/var/lib/nginx/uwsgi/moviepicsmanager-celery.sock
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target
