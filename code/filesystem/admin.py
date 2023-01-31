@@ -90,8 +90,6 @@ class SearchAdmin(admin.ModelAdmin):
                 readonly_fields += ('file',)
             if obj.movies:
                 readonly_fields += ('movies',)
-            if obj.name:
-                readonly_fields += ('name',)
         return readonly_fields
 
     def movie_count(self, obj):
