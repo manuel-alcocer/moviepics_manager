@@ -22,6 +22,7 @@ from filesystem import views
 urlpatterns = [
     path('', include('filesystem.urls')),
     path('admin/', admin.site.urls),
+    path('baton/', include('baton.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

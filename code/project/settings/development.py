@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'tmdb.apps.TmdbConfig',
     'filesystem.apps.FilesystemConfig',
+    'baton',
     'django_celery_results',
     'django_celery_beat',
     'django.contrib.admin',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'baton.autodiscover',
 ]
 
 MIDDLEWARE = [
